@@ -1,0 +1,24 @@
+name: Build and Test our Brain Teasers
+on: #runs on these branchs
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs: #yaml is whitespace specific - this must be in line with name/on
+  build-and-test: 
+    runs-on: ubuntu-latest #fastest machine -Ben
+    steps: 
+      - name: checkout our code
+      #run: runs on commandline of machine
+        uses: actions/checkout@v4 #check out https://github.com/actions/checkout
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x' #x is wildcard
+      - name: Restore packages #use run keyword to run on commandline
+        run: dotnet restore
+      - name: Build our code
+        run: dotnet build
+      - run: dotnet test
